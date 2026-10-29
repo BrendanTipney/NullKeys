@@ -1,7 +1,7 @@
 /*
  * Trackpad on/off toggle that survives sleep.
  *
- * &tp_toggle is a global behavior, so a combo on the central also runs it on
+ * &tp_tog is a global behavior, so a combo on the central also runs it on
  * the right half, where the trackpad lives. There it flips the enabled state,
  * saves it to flash, and suspends or wakes the TPS43. The state is reloaded on
  * boot, which is also how the keyboard wakes from deep sleep.
@@ -112,7 +112,7 @@ ZMK_SUBSCRIPTION(trackpad_toggle, zmk_activity_state_changed);
 
 #endif /* HAS_TRACKPAD */
 
-/* --- &tp_toggle behavior ---------------------------------------------------- */
+/* --- &tp_tog behavior ---------------------------------------------------- */
 
 #define DT_DRV_COMPAT zmk_behavior_trackpad_toggle
 

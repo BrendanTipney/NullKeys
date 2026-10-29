@@ -243,7 +243,7 @@ Set up in `config/west.yml`:
 And in this repo, as a Zephyr module (`zephyr/module.yml`):
 
 * `modules/tap_drag`: laptop style tap, tap and drag and double tap for the trackpad
-* `modules/trackpad_toggle`: the `&tp_toggle` behavior behind H + N, plus the input processor that drops trackpad input while it's off
+* `modules/trackpad_toggle`: the `&tp_tog` behavior behind H + N, plus the input processor that drops trackpad input while it's off
 * `modules/bt_cycle`: `&bt_next` and `&bt_prev`, which switch Bluetooth profiles and skip the empty ones
 * `modules/null_keys_viz`: streams key, layer and battery events to the NullKeys overlay
 

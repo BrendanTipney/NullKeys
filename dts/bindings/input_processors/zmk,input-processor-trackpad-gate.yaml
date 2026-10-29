@@ -1,5 +1,5 @@
 description: |
-  Drops trackpad input while &tp_toggle has the trackpad turned off. Button
+  Drops trackpad input while &tp_tog has the trackpad turned off. Button
   releases still pass so nothing is left held down.
 
 compatible: "zmk,input-processor-trackpad-gate"

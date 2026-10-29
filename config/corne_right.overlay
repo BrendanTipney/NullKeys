@@ -12,7 +12,7 @@
         window-ms = <200>;
     };
 
-    // Drops trackpad input while &tp_toggle has it off (modules/trackpad_toggle).
+    // Drops trackpad input while &tp_tog has it off (modules/trackpad_toggle).
     zip_trackpad_gate: zip_trackpad_gate {
         compatible = "zmk,input-processor-trackpad-gate";
         #input-processor-cells = <0>;

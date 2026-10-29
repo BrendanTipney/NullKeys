@@ -139,7 +139,7 @@
         };
 
         TrackpadToggle {
-            bindings = <&tp_toggle>;
+            bindings = <&tp_tog>;
             key-positions = <18 19>;
             require-prior-idle-ms = <150>;
         };
@@ -174,8 +174,10 @@
         };
 
         // Trackpad on/off, remembered through sleep (modules/trackpad_toggle).
+        // Name must stay 8 characters or fewer: ZMK's split protocol truncates global
+        // behavior names to 8, so a longer one can't be found on the right half.
 
-        tp_toggle: tp_toggle {
+        tp_tog: tp_tog {
             compatible = "zmk,behavior-trackpad-toggle";
             #binding-cells = <0>;
         };
