@@ -16,10 +16,13 @@ include:
   - board: nice_nano//zmk
     shield: corne_left raw_hid_adapter
     artifact-name: corne_left-nice_nano_v2
-    cmake-args: -DCONFIG_BT_MAX_CONN=10 -DCONFIG_BT_MAX_PAIRED=10
+    # Temporary: USB serial logging to watch the right half connect and drop.
+    snippet: zmk-usb-logging
+    cmake-args: -DCONFIG_BT_MAX_CONN=10 -DCONFIG_BT_MAX_PAIRED=10 -DCONFIG_ZMK_LOG_LEVEL_DBG=y
   - board: nice_nano//zmk
     shield: corne_right
     artifact-name: corne_right-nice_nano_v2
     # Temporary: USB serial logging to chase the right half's battery drain.
     snippet: zmk-usb-logging
-    cmake-args: -DCONFIG_ZMK_LOG_LEVEL_DBG=y -DCONFIG_INPUT_LOG_LEVEL_DBG=y
+    # Temporary: 1 minute deep sleep so the sleep path can be tested quickly.
+    cmake-args: -DCONFIG_ZMK_LOG_LEVEL_DBG=y -DCONFIG_INPUT_LOG_LEVEL_DBG=y -DCONFIG_ZMK_IDLE_SLEEP_TIMEOUT=60000
