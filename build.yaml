@@ -20,3 +20,6 @@ include:
   - board: nice_nano//zmk
     shield: corne_right
     artifact-name: corne_right-nice_nano_v2
+    # Temporary: USB serial logging to chase the right half's battery drain.
+    snippet: zmk-usb-logging
+    cmake-args: -DCONFIG_ZMK_LOG_LEVEL_DBG=y -DCONFIG_INPUT_LOG_LEVEL_DBG=y
