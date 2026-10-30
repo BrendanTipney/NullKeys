@@ -65,7 +65,7 @@ The right thumbs mirror Space/Shift and Enter/Ctrl. The outer right thumb types 
 
 **Trackpad with laptop gestures.** Tap to click, tap then drag to hold the button, double tap to double click, two finger tap for right click, and two finger scroll. A custom input processor (`modules/tap_drag`) handles tap and drag. Hold P for high sensitivity (1.8x) and V for low sensitivity (0.45x) when you need speed or precision. Press H + N to turn the trackpad off or back on; the setting is saved, so it stays that way through sleep (`modules/trackpad_toggle`).
 
-**Long battery life.** The trackpad driver fork sleeps the pad with the keyboard, and the halves go to deep sleep after 30 minutes idle.
+**Long battery life.** After 15 minutes idle the trackpad sleeps until the next key press, the halves go to deep sleep after 30 minutes, and the pad is held in reset during deep sleep so it can't drain the battery.
 
 **NullKeys overlay support.** The left half streams key positions, layer state and both halves' battery levels over Raw HID (`modules/null_keys_viz`) so the NullKeys overlay can show exactly what the keyboard is doing. It only streams while the overlay is asking for data. See [NullKeys overlay](#nullkeys-overlay) below.
 

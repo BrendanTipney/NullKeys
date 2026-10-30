@@ -10,16 +10,22 @@
  * trackpad is off it is put back to sleep after every activity change. The
  * zmk,input-processor-trackpad-gate processor drops anything that gets through
  * in between.
+ *
+ * Before deep sleep the TPS43 is also held in reset. Deep sleep cuts the Nice!Nano's
+ * VCC pin that powers the pad, and a reset line left driven high back-feeds the
+ * unpowered chip. Waking from deep sleep reboots, so the driver releases it again.
  */
 
 #include <zephyr/device.h>
 #include <zephyr/devicetree.h>
+#include <zephyr/drivers/gpio.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/settings/settings.h>
 
 #include <drivers/behavior.h>
 #include <drivers/input_processor.h>
+#include <zmk/activity.h>
 #include <zmk/behavior.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/activity_state_changed.h>
@@ -46,6 +52,10 @@ static bool __maybe_unused trackpad_enabled = true;
 int tps43_set_sleep(const struct device *dev, bool sleep);
 
 static const struct device *const trackpad = DEVICE_DT_GET_ONE(azoteq_tps43);
+
+/* The driver flags RST active-high to mean "released", so logical 0 holds the chip in reset. */
+static const struct gpio_dt_spec trackpad_rst =
+    GPIO_DT_SPEC_GET(DT_COMPAT_GET_ANY_STATUS_OKAY(azoteq_tps43), rst_gpios);
 
 static void tp_apply_work_cb(struct k_work *work) {
     if (!device_is_ready(trackpad)) {
@@ -101,6 +111,16 @@ SETTINGS_STATIC_HANDLER_DEFINE(trackpad_toggle, "trackpad", NULL, tp_settings_se
 #endif /* CONFIG_SETTINGS */
 
 static int tp_activity_listener(const zmk_event_t *eh) {
+    const struct zmk_activity_state_changed *ev = as_zmk_activity_state_changed(eh);
+
+    if (ev && ev->state == ZMK_ACTIVITY_SLEEP) {
+        /* Runs synchronously just before ZMK powers off, so no work item. */
+        int ret = gpio_pin_set_dt(&trackpad_rst, 0);
+        if (ret != 0) {
+            LOG_WRN("Failed to hold trackpad in reset: %d", ret);
+        }
+        return ZMK_EV_EVENT_BUBBLE;
+    }
     if (!trackpad_enabled) {
         k_work_reschedule(&tp_apply_work, TP_RESUSPEND_DELAY);
     }

@@ -117,7 +117,7 @@ Full property list: `dts/bindings/input/azoteq,tps43-common.yaml` in the driver 
 
 Peripheral battery was draining faster than expected prior to the driver migration (AYM1607 driver doesn't suspend the trackpad on ZMK idle). The essenceotd fork integrates with ZMK's activity state machine. CONFIG_ZMK_IDLE_SLEEP_TIMEOUT is 30 minutes. BT TX power is +8 dBm (`CONFIG_BT_CTLR_TX_PWR_PLUS_8=y`). ZMK's connection troubleshooting docs recommend it and call the power cost negligible, so don't remove it to save battery.
 
-With `idle-sleep`, the trackpad suspends when the right half goes IDLE (~30 s without activity on that half) and touch can't wake it; only a right-half key press does. Remove `idle-sleep` if that becomes annoying.
+With `idle-sleep`, the trackpad suspends when the right half goes IDLE (15 min without activity on that half, `CONFIG_ZMK_IDLE_TIMEOUT`) and touch can't wake it; only a right-half key press does. Before deep sleep, `modules/trackpad_toggle` holds the TPS43 in reset: deep sleep cuts VCC to the pad, and a reset line left high back-feeds the chip (suspected cause of the right half emptying overnight). Remove `idle-sleep` if that becomes annoying.
 
 ## Bluetooth profiles
 
